@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
         movement = new Vector2(speed.x * inputX, 0);
-        Debug.Log("Movement: " + movement);
     }
 
     void FixedUpdate()
@@ -36,5 +35,12 @@ public class PlayerController : MonoBehaviour
         {
             rigidbody.position = new Vector2(-x, rigidbody.position.y);
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject.Find("Lines").SetActive(false);
+        GameObject.Find("Background").SetActive(false);
+        player.SetActive(false);
     }
 }
