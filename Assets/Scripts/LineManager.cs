@@ -37,7 +37,6 @@ public class LineManager : MonoBehaviour
     {
         if (frame % 3 == 0 && destroyingLine != -1)
         {
-            Debug.Log(destroyedOpacity);
             if (destroyedOpacity > 1)
             {
                 destroyedOpacity = 1;
