@@ -35,15 +35,15 @@ public class LineManager : MonoBehaviour
     float destroyedOpacity = 0f;
     void FixedUpdate()
     {
-        if (frame % 6 == 0 && destroyingLine != -1)
+        if (frame % 3 == 0 && destroyingLine != -1)
         {
-            destroyedOpacity += 0.1f;
             Debug.Log(destroyedOpacity);
             if (destroyedOpacity > 1)
             {
                 destroyedOpacity = 1;
             }
-            FindLineById(destroyingLine).GetComponent<SpriteRenderer>().color = new Color(destroyedOpacity, destroyedOpacity, destroyedOpacity, 1f);
+            FindDestroyerMarker(destroyingLine).GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, destroyedOpacity);
+            destroyedOpacity += 0.05f;
         }
         frame += 1;
         if(frame == 60)
@@ -68,7 +68,11 @@ public class LineManager : MonoBehaviour
             selectedMarker = FindSelectedMarker(selectedLine);
             selectedMarker.SetActive(true);
 
-            destroyedOpacity = 0f;
+            if (destroyingLine != -1)
+            {
+                destroyedOpacity = 0f;
+                FindDestroyerMarker(destroyingLine).GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, destroyedOpacity);
+            }
         }
     }
 
