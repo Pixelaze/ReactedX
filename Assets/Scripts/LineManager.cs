@@ -16,6 +16,7 @@ public class LineManager : MonoBehaviour
     public int destroyingLine = -1;
 
     public System.Random random = new System.Random();
+    public GameObject destroyerMarker, selectedMarker;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +32,19 @@ public class LineManager : MonoBehaviour
 
     int frame = 0;
     // Update is called once per frame
+    float destroyedOpacity = 0f;
     void FixedUpdate()
     {
+        if (frame % 6 == 0 && destroyingLine != -1)
+        {
+            destroyedOpacity += 0.1f;
+            Debug.Log(destroyedOpacity);
+            if (destroyedOpacity > 1)
+            {
+                destroyedOpacity = 1;
+            }
+            FindLineById(destroyingLine).GetComponent<SpriteRenderer>().color = new Color(destroyedOpacity, destroyedOpacity, destroyedOpacity, 1f);
+        }
         frame += 1;
         if(frame == 60)
         {
@@ -41,18 +53,22 @@ public class LineManager : MonoBehaviour
 
             if(destroyingLine != -1)
             {
-                FindDestroyerMarker(destroyingLine).SetActive(false);
+                destroyerMarker.SetActive(false);
                 destroyingLine = -1;
             }
 
             if(selectedLine != -1)
             {
-                FindSelectedMarker(selectedLine).SetActive(false);
+                selectedMarker.SetActive(false);
                 destroyingLine = selectedLine;
-                FindDestroyerMarker(destroyingLine).SetActive(true);
+                destroyerMarker = FindDestroyerMarker(destroyingLine);
+                destroyerMarker.SetActive(true);
             }
             selectedLine = identifier;
-            FindSelectedMarker(selectedLine).SetActive(true);
+            selectedMarker = FindSelectedMarker(selectedLine);
+            selectedMarker.SetActive(true);
+
+            destroyedOpacity = 0f;
         }
     }
 
